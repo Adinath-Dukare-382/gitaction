@@ -1,0 +1,100 @@
+parameters:
+  - name: environment
+    type: string
+
+  - name: working_dir
+    type: string
+    
+  - name: version
+    type: string
+
+  - name: project_name
+    type: string
+
+  - name: azureRmContainerName
+    type: string
+
+  - name: tfstatefile
+    type: string
+
+  - name: serviceconn_name
+    default: 'poh-services-nonprod-Platform of Health'
+    type: string
+
+  - name: tfresourcegroupname
+    default: 'poh-business-services-shared'
+    type: string
+
+  - name: tfstorageaccountname
+    default: 'cmpohnonprodtf'
+    type: string
+
+steps:
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'Visual Studio Professional Subscription(36e17b0a-f140-42b7-933a-03495cc621b2)'
+      scriptType: 'pscore'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+                $appservicePlan = $(az appservice plan list --query "[?tags.env=='${{parameters.environment}}']" | ConvertFrom-Json)
+                $fileName = "${{parameters.working_dir}}/terraform.tfvars.json"
+                $data = @{}
+                $apps = @{}
+                $app = @{}
+
+                $app.Add("app_name","${{parameters.project_name}}")
+                $app.Add("version","${{parameters.version}}")
+                $apps.Add("app",$app)
+
+                $data.Add("plan_id",$appservicePlan.id)
+                $data.Add("location",$appservicePlan.location)
+                $data.Add("resource_group_name",$appservicePlan.resourceGroup)
+                $data.Add("env","${{parameters.environment}}")
+                $data.Add("apps",$apps)
+                $data.Add("tags",$appservicePlan.tags)
+                $data | ConvertTo-Json | set-content -Path $fileName
+
+  - task: TerraformCLI@0
+    displayName: "terraform init"
+    enabled: true
+    inputs:
+      command: "init"
+      backendServiceArm: ${{ parameters.serviceconn_name }}
+      backendType: "azurerm"
+      backendAzureRmResourceGroupName: ${{ parameters.tfresourcegroupname }}
+      backendAzureRmStorageAccountName: ${{ parameters.tfstorageaccountname }}
+      backendAzureRmContainerName: ${{ parameters.azureRmContainerName }}
+      backendAzureRmKey: ${{ parameters.tfstatefile }}
+      allowTelemetryCollection: true
+      workingDirectory: ${{ parameters.working_dir }}
+              
+  - task: TerraformCLI@0
+    displayName: "terraform plan"
+    enabled: true
+    inputs:
+      command: 'plan'
+      workingDirectory: '${{ parameters.working_dir }}'
+      environmentServiceName: ${{ parameters.serviceconn_name }}
+      commandOptions: '-out=tfplan'
+      allowTelemetryCollection: true
+
+  - task: TerraformCLI@0
+    displayName: "terraform apply"
+    enabled: true  
+    inputs:
+      command: 'apply'
+      workingDirectory: '${{ parameters.working_dir }}'
+      environmentServiceName: ${{ parameters.serviceconn_name }}
+      commandOptions: 'tfplan'
+      allowTelemetryCollection: true
+    condition: and(succeeded(), eq(variables['TerraformApply'], 'True'))
+
+  - task: TerraformCLI@0
+    displayName: "terraform destroy"
+    enabled: true
+    inputs:
+      command: 'destroy'
+      workingDirectory: '${{ parameters.working_dir }}'
+      environmentServiceName: ${{ parameters.serviceconn_name }}
+      allowTelemetryCollection: true
+    condition: and(succeeded(), eq(variables['TerraformDestroy'], 'True'))

@@ -1,0 +1,64 @@
+trigger:
+  branches:
+    include:
+      - development
+      - master
+  paths:
+    include:
+     - source/*
+    exclude:
+      - Build/*
+      - Infra/*
+      - Deploy/*
+pr:
+  branches:
+    include:
+      - development
+      - master
+  paths:
+    include:
+     - source/*
+    exclude:
+      - Build/*
+      - Infra/*
+      - Deploy/*
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/HelloWorld.sln'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  displayName: 'Run Nuget Restore'
+  inputs:
+    command: 'restore'
+    restoreSolution: '$(solution)'
+
+- task: DotNetCoreCLI@2
+  displayName: Publish Solution
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    projects: $(solution)
+    arguments: '--configuration Release /p:DebugType=None /p:DebugSymbols=false --output $(Build.SourcesDirectory)\Build\zip\weatherapp -v d'
+    modifyOutputPath: false
+    zipAfterPublish: true
+    workingDirectory: '$(Build.SourcesDirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish zip file
+  inputs:
+    PathtoPublish: '$(Build.SourcesDirectory)\Build\zip\weatherapp'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+- task: PowerShell@2
+  displayName: 'trigger for relase pipeline'
+  inputs:
+    targetType: 'inline'
+    script: 'Write-Host ""#vso[build.addbuildtag]trigger"'
+  condition: and(succeeded(),in(variables['Build.reason'],'IndividualCI','PullRequest'))
