@@ -35,7 +35,7 @@ jobs:
         type: 'zip'
         filename: 'makezip.zip'
 #         exclusions: '*.git* /*node_modules/* .editorconfig'
-#     - uses: actions/upload-artifact@v1
-#       with:
-#         name: my-artifact
-#         path: ${{
+    - uses: actions/upload-artifact@v1
+      with:
+        name: my-artifact
+        path: ' ${{ github.workspace}}/Build/Zip/'
