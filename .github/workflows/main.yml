@@ -18,10 +18,13 @@ jobs:
       with:
         dotnet-version: 3.1.101
     - name: Install dependencies
+      working-directory: source/
       run: dotnet restore
     - name: Build with dotnet
+      working-directory: source/
       run: dotnet build --configuration Release --no-restore
     - name: Test
+      working-directory: source/
       run: dotnet test --no-restore --verbosity normal
     - name: Publish
       working-directory: /*.sln
