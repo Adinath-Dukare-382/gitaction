@@ -29,11 +29,11 @@ jobs:
     - name: Publish
       working-directory: source/
       run: dotnet publish HelloWorld.sln --configuration Release --output ${{ github.workspace}}/Build/Zip/publish.zip --runtime win-x86 --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true -p:PublishArtifact=true
-    - name: Archive Release
-      uses: thedoctor0/zip-release@master
-      with:
-        type: 'zip'
-        filename: 'makezip.zip'
+#     - name: Archive Release
+#       uses: thedoctor0/zip-release@master
+#       with:
+#         type: 'zip'
+#         filename: 'makezip.zip'
 #         exclusions: '*.git* /*node_modules/* .editorconfig'
     - uses: actions/upload-artifact@v1
       with:
