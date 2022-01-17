@@ -35,8 +35,7 @@ jobs:
         type: 'zip'
         filename: 'makezip.zip'
 #         exclusions: '*.git* /*node_modules/* .editorconfig'
-    - name: Step 3 - Use the Upload Artifact GitHub Action
-      uses: actions/upload-artifact@v2
-      with: 
-        name: assets-for-download
-        path: downloads
+    - uses: actions/upload-artifact@v1
+      with:
+        name: my-artifact
+        path: ${{ github.workspace }}/result.zip
