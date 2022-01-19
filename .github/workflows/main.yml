@@ -22,7 +22,7 @@ jobs:
       run: dotnet restore
     - name: Build with dotnet
       working-directory: source/
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build --configuration Release
     - name: Test
       working-directory: source/
       run: dotnet test --verbosity normal
