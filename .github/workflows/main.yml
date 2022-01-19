@@ -43,7 +43,7 @@ jobs:
     - name: Publish
       working-directory: ${{ github.workspace}}/source/
       run: |
-        dotnet publish HelloWorld.sln --configuration Release -r win-x64 --self-contained true -o ${{ github.workspace }}/Build/Zip/publish -p:PublishTrimmed=true -p:PublishSingleFile=true -p:PublishArtifact=true
+        dotnet publish HelloWorld.sln --configuration Release -r win-x64 --self-contained true -o ${{ github.workspace }}/Build/Zip/publish -p:PublishTrimmed=true -p:PublishSingleFile=true -p:PublishArtifact=true -v d
         echo "welcome"
         echo ${{ github.workspace }}
         echo ${{ github.workspace}}/Build/Zip/publish
