@@ -31,3 +31,8 @@ jobs:
     - name: Publish
       working-directory: ${{ github.workspace}}/source/
       run: dotnet publish HelloWorld.sln --configuration Release --output ${{ github.workspace}}/Build/Zip/publish --runtime win-x86 --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true -p:PublishArtifact=true 
+
+    - uses: actions/upload-artifact@v1
+      with:
+        name: my-artifact-1
+        path: 'Build/Zip/'
