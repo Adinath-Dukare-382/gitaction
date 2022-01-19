@@ -31,11 +31,11 @@ jobs:
     - name: Publish
       working-directory: source/
       run: |
-        dotnet publish HelloWorld.sln --configuration Release --output ${{ github.workspace}}/Build/Zip/publish --runtime win-x86 --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true -p:PublishArtifact=true 
+        dotnet publish HelloWorld.sln --configuration Release --runtime win-x86 --self-contained true --output ${{ github.workspace}}/Build/Zip/publish -p:PublishTrimmed=true -p:PublishSingleFile=true -p:PublishArtifact=true 
         echo "welcome"
-        zip -r win-x86 ${{ github.workspace}}/Build/Zip/publish
+        zip ${{ github.workspace}}/Build/Zip/publish
       
     - uses: actions/upload-artifact@v1
       with:
         name: my-artifact-1
-        path: 'Build/Zip/'
+        path: '${{ github.workspace}}/Build/Zip/'
