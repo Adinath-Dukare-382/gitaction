@@ -50,5 +50,5 @@ jobs:
       
     - uses: actions/upload-artifact@v1
       with:
-        name: my-artifact-1
+        name: my-artifact-2
         path: 'Build/Zip/'
