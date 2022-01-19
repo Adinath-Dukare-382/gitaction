@@ -28,7 +28,7 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
     - name: Publish
       working-directory: ${{ github.workspace}}/source/
-      run: dotnet publish HelloWorld.sln --configuration Release --output ${{ github.workspace}}/Build/Zip/publish --runtime win-x86 --self-contained true -p:PublishTrimmed=true -p:PublishZip:true -p:PublishSingleFile=true -p:PublishArtifact=true
+      run: dotnet publish HelloWorld.sln --configuration Release --output ${{ github.workspace}}/Build/Zip/publish --runtime win-x86 --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true -p:PublishArtifact=true
 #     - name: Archive Release
 #       uses: thedoctor0/zip-release@master
 #       with:
