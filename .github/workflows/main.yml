@@ -43,12 +43,19 @@ jobs:
     - name: Publish
       working-directory: ${{ github.workspace}}/source/
       run: |
-        dotnet publish HelloWorld.sln --configuration Release -r win-x64 --self-contained true -o ${{ github.workspace}}/Build/Zip/publish -p:PublishTrimmed=true -p:PublishSingleFile=true -p:PublishArtifact=true 
+        dotnet publish HelloWorld.sln --configuration Release -r win-x64 --self-contained true -o /Build/Zip/publish -p:PublishTrimmed=true -p:PublishSingleFile=true -p:PublishArtifact=true 
         echo "welcome"
         echo ${{ github.workspace }}
         echo ${{ github.workspace}}/Build/Zip/publish
-        zip ${{ github.workspace}}/Build/Zip/publish
-      
+        zip /Build/Zip/publish
+  
+    - name: Archive Release
+      uses: thedoctor0/zip-release@master
+      with:
+        type: 'zip'
+        filename: 'makezip3.zip'
+        exclusions: '*.git* /*node_modules/* .editorconfig'
+        
     - uses: actions/upload-artifact@v1
       with:
         name: my-artifact-2
