@@ -33,7 +33,6 @@ jobs:
       run: |
         dotnet publish HelloWorld.sln --configuration Release --output ${{ github.workspace}}/Build/Zip/publish --runtime win-x86 --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true -p:PublishArtifact=true 
         echo "welcome"
-        zip ${{ github.workspace}}/Build/Zip/publish
       
     - uses: actions/upload-artifact@v1
       with:
