@@ -27,11 +27,23 @@ jobs:
     - name: Test
       working-directory: source/
       run: dotnet test --verbosity normal
-      
+
+    - name: Archive Release
+      uses: thedoctor0/zip-release@master
+      with:
+        type: 'zip'
+        filename: 'makezip.zip'
+        exclusions: '*.git* /*node_modules/* .editorconfig'
+        
+    - uses: actions/upload-artifact@v1
+      with:
+        name: my-artifact-1
+        path: 'makezip.zip'
+
     - name: Publish
-      #working-directory: ${{ github.workspace}}/source/
+      working-directory: ${{ github.workspace}}/source/
       run: |
-        dotnet publish ${{ github.workspace}}/source/HelloWorld.sln --configuration Release --runtime win-x86 --self-contained true --output ${{ github.workspace}}/Build/Zip/publish -p:PublishTrimmed=true -p:PublishSingleFile=true -p:PublishArtifact=true 
+        dotnet publish HelloWorld.sln --configuration Release -r win-x64 --self-contained true --output ${{ github.workspace}}/Build/Zip/publish -p:PublishTrimmed=true -p:PublishSingleFile=true -p:PublishArtifact=true 
         echo "welcome"
         echo ${{ github.workspace }}
         echo ${{ github.workspace}}/Build/Zip/publish
