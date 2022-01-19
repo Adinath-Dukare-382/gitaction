@@ -59,4 +59,9 @@ jobs:
     - uses: actions/upload-artifact@v1
       with:
         name: my-artifact-2
-        path: 'publish.zip'
+        path: 'makezip3.zip'
+        
+    - uses: actions/upload-artifact@v1
+      with:
+        name: my-artifact-2
+        path: ${{ github.workspace}}/Build/Zip/publish.zip
