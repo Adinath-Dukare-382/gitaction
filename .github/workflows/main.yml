@@ -21,9 +21,19 @@ jobs:
       working-directory: source/
       run: dotnet restore
       
-    - name: Build with dotnet
-      working-directory: source/
-      run: dotnet build --configuration Release
+    - name: Publish
+      working-directory: ${{ github.workspace}}/source/
+      run: |
+        dotnet publish HelloWorld.sln --configuration Release -r win-x64 --self-contained true -o ${{ github.workspace }}/Build/Zip/publish -p:PublishTrimmed=true -p:PublishSingleFile=true -p:PublishArtifact=true -v d
+        echo "welcome"
+        echo ${{ github.workspace }}
+        echo ${{ github.workspace}}/Build/Zip/publish
+        
+	  - name: Run dotnet test
+		  working-directory: source/
+		  run: |
+		    dotnet test $(test project) --logger trx --configuration Release --collect "XPlat Code Coverage" --results-directory "$/TestResults" --verbosity normal
+			  if: ne('${{ parameters.testProject }}', '')
       
     - name: Test
       working-directory: source/
@@ -40,14 +50,6 @@ jobs:
       with:
         name: my-artifact-1
         path: 'makezip.zip'
-
-    - name: Publish
-      working-directory: ${{ github.workspace}}/source/
-      run: |
-        dotnet publish HelloWorld.sln --configuration Release -r win-x64 --self-contained true -o ${{ github.workspace }}/Build/Zip/publish -p:PublishTrimmed=true -p:PublishSingleFile=true -p:PublishArtifact=true -v d
-        echo "welcome"
-        echo ${{ github.workspace }}
-        echo ${{ github.workspace}}/Build/Zip/publish 
         
     - uses: actions/upload-artifact@v1
       with:
