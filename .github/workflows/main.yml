@@ -53,3 +53,7 @@ jobs:
       with:
         name: my-artifact-2
         path: 'Build/Zip/'
+        
+    - uses: romeovs/lcov-reporter-action@v0.2.16
+      with:
+        lcov-file: ./coverage/lcov.info
