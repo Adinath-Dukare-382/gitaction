@@ -31,9 +31,8 @@ jobs:
         
     - name: Run dotnet test
       working-directory: source/
-      run: |
-	dotnet test $(test project) --logger trx --configuration Release --collect "XPlat Code Coverage" --results-directory "$/TestResults" --verbosity normal
-	if: ne('${{ parameters.testProject }}', '')
+      run: dotnet test $(test project) --logger trx --configuration Release --collect 'XPlat Code Coverage' --results-directory '$/TestResults' --verbosity normal
+      if: ne('${{ parameters.testProject }}', '')
       
     - name: Test
       working-directory: source/
