@@ -30,7 +30,7 @@ jobs:
     - name: Run dotnet test
       working-directory: source/
       run: dotnet test $(test project) --logger trx --configuration Release --collect 'XPlat Code Coverage' --results-directory '${{ github.workspace }}/TestResults' --verbosity normal
-      if: ne('$(testProject)', '')
+      if: ${{ '$(testProject)' -ne  '' }}
       
     - name: Archive Release
       uses: thedoctor0/zip-release@master
