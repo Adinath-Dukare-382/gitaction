@@ -19,17 +19,17 @@ jobs:
       working-directory: source/
       run: dotnet restore
       
-    - name: Publish
-      working-directory: ${{ github.workspace}}/source/HelloWorld/
-      run: |
-        dotnet publish HelloWorld.csproj --configuration Release -r win-x64 --self-contained true -o ${{ github.workspace }}/Build/Zip/publish -p:PublishTrimmed=true -p:PublishSingleFile=true -p:PublishArtifact=true -v d
-        echo "welcome"
-        echo ${{ github.workspace }}
-        echo ${{ github.workspace}}/Build/Zip/publish
+#     - name: Publish
+#       working-directory: ${{ github.workspace}}/source/HelloWorld/
+#       run: |
+#         dotnet publish HelloWorld.csproj --configuration Release -r win-x64 --self-contained true -o ${{ github.workspace }}/Build/Zip/publish -p:PublishTrimmed=true -p:PublishSingleFile=true -p:PublishArtifact=true -v d
+#         echo "welcome"
+#         echo ${{ github.workspace }}
+#         echo ${{ github.workspace}}/Build/Zip/publish
         
-    - name: Test
-      working-directory: ${{ github.workspace}}/source/HelloWorld/
-      run: dotnet test HelloWorld.csproj --no-restore --verbosity normal
+#     - name: Test
+#       working-directory: ${{ github.workspace}}/source/HelloWorld/
+#       run: dotnet test HelloWorld.csproj --no-restore --verbosity normal
 
     - name: publish
       working-directory: ${{ github.workspace}}/source/HelloWorld/
