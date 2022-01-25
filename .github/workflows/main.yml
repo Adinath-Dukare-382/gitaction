@@ -27,13 +27,13 @@ jobs:
         echo ${{ github.workspace }}
         echo ${{ github.workspace}}/Build/Zip/publish
         
-	  - name: Test
+    - name: Test
       working-directory: ${{ github.workspace}}/source/HelloWorld/
-		  run: dotnet test HelloWorld.csproj --no-restore --verbosity normal
+      run: dotnet test HelloWorld.csproj --no-restore --verbosity normal
 
-	  - name: publish
+    - name: publish
       working-directory: ${{ github.workspace}}/source/HelloWorld/
-		  run: dotnet publish HelloWorld.csproj --no-build --configuration Release --runtime win-x86 --self-contained true --output ${{ github.workspace}}/Build/Zip/publish
+      run: dotnet publish HelloWorld.csproj --no-build --configuration Release --runtime win-x86 --self-contained true --output ${{ github.workspace}}/Build/Zip/publish
 
 #     - name: Run dotnet test
 #       working-directory: source/
