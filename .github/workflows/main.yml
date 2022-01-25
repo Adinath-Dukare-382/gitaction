@@ -6,9 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    
-    
+    runs-on: ubuntu-latest 
     steps:
     - uses: actions/checkout@v2
       
@@ -31,13 +29,9 @@ jobs:
         
     - name: Run dotnet test
       working-directory: source/
-      run: dotnet test $(test project) --logger trx --configuration Release --collect 'XPlat Code Coverage' --results-directory '$/TestResults' --verbosity normal
-      if: ne('${{ parameters.testProject }}', '')
+      run: dotnet test $(test project) --logger trx --configuration Release --collect 'XPlat Code Coverage' --results-directory '${{ github.workspace }}/TestResults' --verbosity normal
+      if: ne('$(testProject)', '')
       
-    - name: Test
-      working-directory: source/
-      run: dotnet test --verbosity normal
- 
     - name: Archive Release
       uses: thedoctor0/zip-release@master
       with:
