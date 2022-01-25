@@ -44,5 +44,5 @@ jobs:
     - uses: actions/upload-artifact@v1
       with:
         name: my-artifact-2
-        path: 'Build/Zip/'
+        path: ${{ github.workspace}}/Build/Zip/publish/artifact/*
         
