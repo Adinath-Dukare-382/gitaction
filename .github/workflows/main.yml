@@ -33,30 +33,16 @@ jobs:
 
     - name: publish
       working-directory: ${{ github.workspace}}/source/HelloWorld/
-      run: dotnet publish HelloWorld.csproj --no-build --configuration Release --runtime win-x86 --self-contained true --output ${{ github.workspace}}/Build/Zip/publish
+      run: dotnet publish HelloWorld.csproject --configuration Release --runtime win-x86 --self-contained true --output ${{ github.workspace}}/Build/Zip/publish/artifact -p:PublishTrimmed=true -p:PublishSingleFile=true -p:PublishArtifact=true -v d
 
 #     - name: Run dotnet test
 #       working-directory: source/
 #       run: dotnet test $(test project) --logger trx --configuration Release --collect 'XPlat Code Coverage' --results-directory '${{ github.workspace }}/TestResults' --verbosity normal
 #       if: ${{ '$(testProject)' -ne  '' }}
       
-    - name: Archive Release
-      uses: thedoctor0/zip-release@master
-      with:
-        type: 'zip'
-        filename: 'makezip.zip'
-        exclusions: '*.git* /*node_modules/* .editorconfig'
-        
-    - uses: actions/upload-artifact@v1
-      with:
-        name: my-artifact-1
-        path: 'makezip.zip'
-        
+
     - uses: actions/upload-artifact@v1
       with:
         name: my-artifact-2
-        path: 'Build/Zip/'
+        path: 'Build/Zip/artifact'
         
-    - uses: romeovs/lcov-reporter-action@v0.2.16
-      with:
-        lcov-file: ./coverage/lcov.info
