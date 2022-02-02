@@ -36,8 +36,8 @@ jobs:
 #       run: dotnet test $(test project) --logger trx --configuration Release --collect 'XPlat Code Coverage' --results-directory '${{ github.workspace }}/TestResults' --verbosity normal
 #       if: ${{ '$(testProject)' -ne  '' }}
       
-#     - uses: actions/upload-artifact@v1
-#       with:
-#         name: my-artifact-2
-#         path: ${{ github.workspace}}/Build/Zip/publish/
+    - uses: actions/upload-artifact@v1
+      with:
+        name: my-artifact-2
+        path: ${{ github.workspace}}/Build/Zip/publish/
         
