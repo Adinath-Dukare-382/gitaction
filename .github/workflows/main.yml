@@ -22,7 +22,7 @@ jobs:
     - name: Publish
       working-directory: ${{ github.workspace}}/source/HelloWorld/
       run: |
-        dotnet publish HelloWorld.csproj --configuration Release -r win-x64 --self-contained true -o ${{ github.workspace }}/Build/Zip/publish -p:PublishTrimmed=true -p:PublishSingleFile=true -p:PublishArtifact=true -v d
+        dotnet publish HelloWorld.csproj --configuration Release -r win-x64 --self-contained true -o ${{ github.workspace }}/Build/Zip/publish -v d
         echo "welcome"
         echo ${{ github.workspace }}
         echo ${{ github.workspace}}/Build/Zip/publish
