@@ -9,35 +9,40 @@ jobs:
     runs-on: ubuntu-latest 
     steps:
     - uses: actions/checkout@v2
-      
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.101
-        
-    - name: Install dependencies
-      working-directory: source/
-      run: dotnet restore
-      
-    - name: Publish
-      working-directory: ${{ github.workspace}}/source/HelloWorld/
+    
+    - name: check cmd
+      shell: cmd
       run: |
-        dotnet publish HelloWorld.csproj --configuration Release -r win-x64 --self-contained true -o ${{ github.workspace }}/Build/Zip/publish -v d
-        echo "welcome"
-        echo ${{ github.workspace }}
-        echo ${{ github.workspace}}/Build/Zip/publish
+        write-output "helloworld"
+      
+#     - name: Setup .NET Core
+#       uses: actions/setup-dotnet@v1
+#       with:
+#         dotnet-version: 3.1.101
         
-    - name: Test
-      working-directory: ${{ github.workspace}}/source/HelloWorld/
-      run: dotnet test HelloWorld.csproj --no-restore --verbosity normal
+#     - name: Install dependencies
+#       working-directory: source/
+#       run: dotnet restore
+      
+#     - name: Publish
+#       working-directory: ${{ github.workspace}}/source/HelloWorld/
+#       run: |
+#         dotnet publish HelloWorld.csproj --configuration Release -r win-x64 --self-contained true -o ${{ github.workspace }}/Build/Zip/publish -v d
+#         echo "welcome"
+#         echo ${{ github.workspace }}
+#         echo ${{ github.workspace}}/Build/Zip/publish
+        
+#     - name: Test
+#       working-directory: ${{ github.workspace}}/source/HelloWorld/
+#       run: dotnet test HelloWorld.csproj --no-restore --verbosity normal
 
 #     - name: Run dotnet test
 #       working-directory: source/
 #       run: dotnet test $(test project) --logger trx --configuration Release --collect 'XPlat Code Coverage' --results-directory '${{ github.workspace }}/TestResults' --verbosity normal
 #       if: ${{ '$(testProject)' -ne  '' }}
       
-    - uses: actions/upload-artifact@v1
-      with:
-        name: my-artifact-2
-        path: ${{ github.workspace}}/Build/Zip/publish/
+#     - uses: actions/upload-artifact@v1
+#       with:
+#         name: my-artifact-2
+#         path: ${{ github.workspace}}/Build/Zip/publish/
         
